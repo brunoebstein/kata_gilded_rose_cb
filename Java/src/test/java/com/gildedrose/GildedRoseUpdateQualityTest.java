@@ -56,4 +56,22 @@ public class GildedRoseUpdateQualityTest {
         app.updateQuality();
         assertThat(app.items[0].quality).isEqualTo(qualityExpected);
     }
+
+
+    @ParameterizedTest
+    @CsvSource({
+            "foo,0,0,-1",
+            "foo,1,0,0",
+            "foo,2,0,1",
+            "Aged Brie,0,0,-1",
+            "Aged Brie,1,0,0",
+            "Aged Brie,2,0,1",
+            "Aged Brie,50,0,49",
+    })
+    public void sellInShouldBeUpdated(String name, int sellIn, int quality, int sellInExpected) {
+        Item[] items = new Item[] { new Item(name, sellIn, quality) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].sellIn).isEqualTo(sellInExpected);
+    }
 }
