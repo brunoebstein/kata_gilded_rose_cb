@@ -1,4 +1,5 @@
 package com.gildedrose;
+import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -74,4 +75,38 @@ public class GildedRoseUpdateQualityTest {
         app.updateQuality();
         assertThat(app.items[0].sellIn).isEqualTo(sellInExpected);
     }
+
+    @Test
+    public void normalItemWithPositiveQualityAndSellInAbove1ShouldDecrementQualityBy1(){
+        Item[] items = new Item[] { new Item("ordinary", 2, 25) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].quality).isEqualTo(24);
+    }
+
+    @Test
+    public void normalItemWithPositiveQualityAndSellInAbove1ShouldDecrementSellInBy1(){
+        Item[] items = new Item[] { new Item("ordinary", 2, 25) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].sellIn).isEqualTo(1);
+    }
+
+    @Test
+    public void normalItemWithPositiveQualityAndSellInBellow1ShouldDecrementSellInBy1(){
+        Item[] items = new Item[] { new Item("ordinary", 0, 25) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].sellIn).isEqualTo(-1);
+    }
+
+    @Test
+    public void normalItemWithPositiveQualityAndSellInBellow1ShouldDecrementQualityBy2(){
+        Item[] items = new Item[] { new Item("ordinary", 0, 25) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertThat(app.items[0].quality).isEqualTo(23);
+    }
+
+
 }
