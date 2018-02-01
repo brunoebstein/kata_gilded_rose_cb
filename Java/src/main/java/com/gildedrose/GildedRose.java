@@ -16,46 +16,48 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            if (!item.name.equals(BRIE)
-                    && !item.name.equals(BACKSTAGE_PASSES)) {
-                if (item.quality > MINIMAL_QUALITY) {
-                    if (!item.name.equals(SULFURAS)) {
-                        item.quality--;
-                    }
-                }
-            } else {
+            if (item.name.equals(BRIE)) {
                 if (item.quality < MAXIMAL_QUALITY) {
                     incrementQualityWhenIsNotMaximal(item);
+                }
 
-                    if (item.name.equals(BACKSTAGE_PASSES)) {
-                        if (item.sellIn < FIRST_SELL_IN_DEADLINE) {
-                            incrementQualityWhenIsNotMaximal(item);
-                        }
+                item.sellIn--;
 
-                        if (item.sellIn < SECOND_SELL_IN_DEADLINE) {
-                            incrementQualityWhenIsNotMaximal(item);
-                        }
+                if (item.sellIn < 0) {
+                    incrementQualityWhenIsNotMaximal(item);
+                }
+            } else if (item.name.equals(BACKSTAGE_PASSES)) {
+                if (item.quality < MAXIMAL_QUALITY) {
+                    incrementQualityWhenIsNotMaximal(item);
+                    if (item.sellIn < FIRST_SELL_IN_DEADLINE) {
+                        incrementQualityWhenIsNotMaximal(item);
+                    }
+
+                    if (item.sellIn < SECOND_SELL_IN_DEADLINE) {
+                        incrementQualityWhenIsNotMaximal(item);
                     }
                 }
-            }
-
-            if (!item.name.equals(SULFURAS)) {
                 item.sellIn--;
-            }
 
-            if (item.sellIn < 0) {
-                if (!item.name.equals(BRIE)) {
-                    if (!item.name.equals(BACKSTAGE_PASSES)) {
-                        if (item.quality > MINIMAL_QUALITY) {
-                            if (!item.name.equals(SULFURAS)) {
-                                item.quality--;
-                            }
-                        }
-                    } else {
-                        item.quality = MINIMAL_QUALITY;
+                if (item.sellIn < 0) {
+                    item.quality = MINIMAL_QUALITY;
+                }
+            } else if (item.name.equals(SULFURAS)) {
+
+            } else {
+                if (item.quality > MINIMAL_QUALITY) {
+                    item.quality--;
+                }
+                item.sellIn--;
+
+
+                if (item.sellIn < 0) {
+                    if (item.quality > MINIMAL_QUALITY) {
+
+                        item.quality--;
+
                     }
-                } else {
-                    incrementQualityWhenIsNotMaximal(item);
+
                 }
             }
         }
